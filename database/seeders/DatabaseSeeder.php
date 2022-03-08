@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Movie;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -171,6 +172,23 @@ class DatabaseSeeder extends Seeder
         )
     );
 
+    private $arrayUsuarios = array(
+        array(
+            'name' => 'Jaime Gomez',
+            'email' => 'jgomez@gmail.com',
+            'password' => 'jgomez1234'
+        ),
+        array(
+            'name' => 'Juan Meneses',
+            'email' => 'jmeneses@gmail.com',
+            'password' => 'jmeneses1234'
+        ),
+        array(
+            'name' => 'Brayan Tobar',
+            'email' => 'btobar@gmail.com',
+            'password' => 'btobar1234'
+        )
+    );
     /**
      * Seed the application's database.
      *
@@ -192,9 +210,21 @@ class DatabaseSeeder extends Seeder
         }
     }
 
+    private function seedUsers()
+    {
+        DB::table('users')->delete();
+        foreach ($this->arrayUsuarios as $usuario) {
+            $p = new User();
+            $p->name = $usuario['name'];
+            $p->email = $usuario['email'];
+            $p->password = bcrypt($usuario['password'];
+            $p->save();
+        }
+    }
     public function run()
     {
         // \App\Models\User::factory(10)->create();
         $this->seedCatalog();
+        $this->seedUsers();
     }
 }

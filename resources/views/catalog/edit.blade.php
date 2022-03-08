@@ -10,10 +10,11 @@
             <div class="card-body" style="padding:30px">
 
 
-                <form action="/catalog/create" method="POST">
+                <form action="/catalog/edit" method="POST">
                     {{method_field('PUT')}}
                     {{ csrf_field() }}
 
+                    <input type="hidden" name="id" id="id" value="{{$pelicula->id}}">
                     <div class="form-group">
                         <label for="title">Título</label>
                         <input type="text" name="title" id="title" value="{{$pelicula->title}}" class="form-control">

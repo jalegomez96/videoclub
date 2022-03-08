@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CatalogController;
 use App\Http\Controllers\HomeController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 /*
 |--------------------------------------------------------------------------
@@ -14,21 +15,25 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-
 Route::get('/', [HomeController::class, 'getHome']);
 
-Route::get('catalog', [CatalogController::class, 'getIndex']);
+Route::group(['middleware' => 'auth'], function () {
 
-Route::get('catalog/show/{id}', [CatalogController::class, 'getShow']);
 
-Route::get('catalog/create', [CatalogController::class, 'getCreate']);
+    Route::get('catalog', [CatalogController::class, 'getIndex']);
 
-Route::get('catalog/edit/{id}', [CatalogController::class, 'getEdit']);
+    Route::get('catalog/show/{id}', [CatalogController::class, 'getShow']);
 
-Route::get('login', function () {
-    return view('auth.login');
+    Route::get('catalog/create', [CatalogController::class, 'getCreate']);
+
+    Route::get('catalog/edit/{id}', [CatalogController::class, 'getEdit']);
+
+    Route::post('catalog/create', [CatalogController::class, 'postCreate']);
+
+    Route::put('catalog/edit', [CatalogController::class, 'putEdit']);
 });
 
-Route::post('logout', function () {
-    return "Saliendo de la sesión";
-});
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
