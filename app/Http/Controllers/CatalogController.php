@@ -47,6 +47,7 @@ class CatalogController extends Controller
         $p->poster = $pelicula['poster'];
         $p->synopsis = $pelicula['synopsis'];
         $p->save();
+        notify()->success('Los datos de la película han sido actualizados');
         return redirect('/catalog/show/' . $p->id);
     }
 }
